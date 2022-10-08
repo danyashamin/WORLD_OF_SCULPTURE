@@ -1,3 +1,4 @@
+from turtle import speed
 from constants import *
 
 class Card():
@@ -52,16 +53,30 @@ def ray_casting(player, CARD_CUR):
             
 
 class Player():
-    def __init__(self, x, y, angle):
+    def __init__(self, x, y, angle, speed):
         self.x, self.y = x, y
         self.angle = angle
+        self.speed = speed
+        self.forw, self.backw, self.rightw, self.leftw, self.rightp, self.leftp = False, False, False, False, False, False
     def pos(self):
         return (self.x, self.y)
+    def management(self, card_cur):
+        if self.forw:
+            if not (mapping(self.x+cos(self.angle)*self.speed, self.y) in card_cur.DICT):
+                self.x+=cos(self.angle)*self.speed
+            if not (mapping(self.x, self.y+sin(self.angle)*self.speed) in card_cur.DICT):
+                self.y+=sin(self.angle)*self.speed
     def drawing(self, card_cur, running):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
-            
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_w:
+                    self.forw = True
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_w:
+                    self.forw = False
+        self.management(card_cur)
         walls = ray_casting(self, card_cur)
         objs = walls
         for obj in sorted(objs, key=lambda n:n[0], reverse=True):
