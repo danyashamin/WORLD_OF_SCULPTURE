@@ -1,15 +1,19 @@
 import pygame as pg
-from math import pi, sin, cos, tan, atan2
+from math import pi, sin, cos, tan, atan2, degrees, sqrt
 pg.init()
 
 SCREEN = pg.display.set_mode((1200, 800))
 SCREEN_WIDTH = SCREEN.get_width()
 SCREEN_HEIGHT = SCREEN.get_height()
 NUM_RAYS = 300
+FAKE_RAYS = 100
+FAKE_RAYS_RANGE = FAKE_RAYS+NUM_RAYS+FAKE_RAYS
+CENTER_RAY = NUM_RAYS//2-1
 SCREEN_SCALE = SCREEN_WIDTH/NUM_RAYS
 TILE = 100
 FOV = pi/3
 HALF_FOV = FOV/2
+DOUBLE_PI = pi*2
 DELTA_ANGLE = FOV/NUM_RAYS
 DIST = NUM_RAYS/(2*tan(HALF_FOV))
 PROJ_COEF = 3*DIST*TILE
