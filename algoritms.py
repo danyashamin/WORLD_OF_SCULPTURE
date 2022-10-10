@@ -50,7 +50,10 @@ def ray_casting(player, CARD_CUR):
         walls.append((depth, wall_image, (ray*SCREEN_SCALE, SCREEN_HEIGHT/2-proj_height/2)))
         cur_angle+=DELTA_ANGLE
     return walls
-            
+
+class SpriteObject():
+    def __init__(self, sprite_type,static, pos, shift, scale):
+        self.image = None
 
 class Player():
     def __init__(self, x, y, angle, speed):
@@ -66,6 +69,25 @@ class Player():
                 self.x+=cos(self.angle)*self.speed
             if not (mapping(self.x, self.y+sin(self.angle)*self.speed) in card_cur.DICT):
                 self.y+=sin(self.angle)*self.speed
+        if self.backw:
+            if not (mapping(self.x-cos(self.angle)*self.speed, self.y) in card_cur.DICT):
+                self.x-=cos(self.angle)*self.speed
+            if not (mapping(self.x, self.y-sin(self.angle)*self.speed) in card_cur.DICT):
+                self.y-=sin(self.angle)*self.speed
+        if self.rightw:
+            if not (mapping(self.x-sin(self.angle)*self.speed, self.y) in card_cur.DICT):
+                self.x-=sin(self.angle)*self.speed
+            if not (mapping(self.x, self.y+cos(self.angle)*self.speed) in card_cur.DICT):
+                self.y+=cos(self.angle)*self.speed
+        if self.leftw:
+            if not (mapping(self.x+sin(self.angle)*self.speed, self.y) in card_cur.DICT):
+                self.x+=sin(self.angle)*self.speed
+            if not (mapping(self.x, self.y-cos(self.angle)*self.speed) in card_cur.DICT):
+                self.y-=cos(self.angle)*self.speed
+        if self.rightp:
+            self.angle+=0.02
+        if self.leftp:
+            self.angle-=0.02
     def drawing(self, card_cur, running):
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -73,9 +95,30 @@ class Player():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_w:
                     self.forw = True
+                if event.key == pg.K_s:
+                    self.backw = True
+                if event.key == pg.K_d:
+                    self.rightw = True
+                if event.key == pg.K_a:
+                    self.leftw = True
+                if event.key == pg.K_RIGHT:
+                    self.rightp = True
+                if event.key == pg.K_LEFT:
+                    self.leftp = True
             if event.type == pg.KEYUP:
                 if event.key == pg.K_w:
                     self.forw = False
+                if event.key == pg.K_s:
+                    self.backw = False
+                if event.key == pg.K_d:
+                    self.rightw = False
+                if event.key == pg.K_a:
+                    self.leftw = False
+                if event.key == pg.K_RIGHT:
+                    self.rightp = False
+                if event.key == pg.K_LEFT:
+                    self.leftp = False
+        SCREEN.fill(COLORS['WHITE'])
         self.management(card_cur)
         walls = ray_casting(self, card_cur)
         objs = walls

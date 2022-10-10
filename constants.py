@@ -15,9 +15,11 @@ DIST = NUM_RAYS/(2*tan(HALF_FOV))
 PROJ_COEF = 3*DIST*TILE
 CARDS = {'CARD_TRIAL':open('game_files\CARDS\CARD_TRIAL.txt')}
 TEXTURES_WALLS = {'1':pg.image.load('game_files\TEXTURES\TEXTURES_WALLS\WALL_TRIAL.bmp').convert()}
+TEXTURES_SPRITES = {'SPRITE_TRIAL':[pg.image.load(f'game_files\TEXTURES\TEXTURES_SPRITES\SPRITE_TRIAL\SPRITE_TRIAL.{i}.bmp') for i in range(8)]}
 WALL_WIDTH = TEXTURES_WALLS['1'].get_width()
 WALL_HEIGHT = TEXTURES_WALLS['1'].get_height()
 WALL_SCALE = WALL_WIDTH/TILE
+COLORS = {'WHITE':(255, 255, 255)}
 
 running = True
 clock = pg.time.Clock()
