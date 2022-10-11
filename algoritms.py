@@ -77,9 +77,10 @@ class SpriteObject():
                         break
             distance_to_sprite = sqrt(dx**2+dy**2)
             distance_to_sprite*=cos(HALF_FOV-current_ray*DELTA_ANGLE)
-            proj_height = min(int(PROJ_COEF/distance_to_sprite), 2*SCREEN_HEIGHT)
+            proj_height = min(int(PROJ_COEF/distance_to_sprite)*self.scale, 2*SCREEN_HEIGHT*self.scale)
             half_proj_height = proj_height//2
-            sprite_pos = (current_ray*SCREEN_SCALE-half_proj_height, SCREEN_HEIGHT/2-proj_height/2)
+            shift = half_proj_height*self.shift
+            sprite_pos = (current_ray*SCREEN_SCALE-half_proj_height, SCREEN_HEIGHT/2-proj_height/2-shift)
             sprite = pg.transform.scale(self.image, (proj_height, proj_height))
             return (distance_to_sprite, sprite, sprite_pos)
         else:
@@ -129,4 +130,4 @@ class Player():
         clock.tick()
         return running
 
-sprites_on_card = [SpriteObject('SPRITE_TRIAL', False, (300, 300), 1, 1)]
+sprites_on_card = [SpriteObject('SPRITE_TRIAL', False, (300, 300), 1, 2)]
