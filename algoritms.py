@@ -176,3 +176,4 @@ class Player():
 
 
 sprites_on_card = [SpriteObject('sprite_trial', False, (200, 200), 1, 1, 0)]
+print('')
